@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <script>
+
+    </script>
+    <style>
+        body {
+            text-align: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* 让页面高度至少为视口高度 */
+        }
+
+        #login {
+            max-width: 1000px;
+            /* 设定表单的最大宽度，以适应较宽的屏幕 */
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            width: 100%;
+            /* 保证在窄屏下填满可用空间 */
+        }
+
+        input[type=text] {
+            width: 20%;
+            padding: 12px 20px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            /* box-sizing: border-box; */
+        }
+
+        button {
+            background-color: #4b6383;
+            color: white;
+            padding: 14px 20px;
+            margin-top: 10px;
+            /* 上边距 */
+            margin-bottom: 10px;
+            /* 下边距 */
+            margin-left: 25px;
+            /* 左边距 */
+            margin-right: 0px;
+            /* 右边距 */
+            border: none;
+            cursor: pointer;
+            width: 12%;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        label {
+            margin-right: 20px;
+            font-size: 16px;
+            display: inline-block;
+            text-align: right;
+        }
+
+        /* 较小屏幕上的进一步优化 */
+        @media screen and (max-width: 600px) {
+            #login-form {
+                width: 90%;
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="login">
+        <h3>Please enter the number of subfiles you want to decompose to.</h3>
+        <input type="text" id="part" name="part" value="" placeholder="Enter the Number" required>
+        <button id="parts">Submit</button>
+    </div>
+    <script>
+        let p = document.getElementById('parts')
+        p.addEventListener('click', function () {
+            const vscode = acquireVsCodeApi();
+            const part = document.getElementById('part').value;
+            vscode.postMessage({
+                command: "number",
+                parts: part
+            });
+            let please_wait = document.getElementById('login')
+            please_wait.innerHTML = "<h3>Please wait for a short time, we will jump to the next step after constructing the reference graphs.</h3><h4>It may take longer time if you are trying for the first time.</h4>";
+        })
+    </script>
+</body>
+
+</html>

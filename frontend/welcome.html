@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <style>
+        body {
+            text-align: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* 让页面高度至少为视口高度 */
+        }
+
+        #login {
+            max-width: 1000px;
+            /* 设定表单的最大宽度，以适应较宽的屏幕 */
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            width: 100%;
+            /* 保证在窄屏下填满可用空间 */
+        }
+
+        input[type=text] {
+            width: 40%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4b6383;
+            color: white;
+            padding: 14px 20px;
+            margin-top: 25px;
+            /* 上边距 */
+            margin-bottom: 10px;
+            /* 下边距 */
+            margin-left: 25px;
+            /* 左边距 */
+            margin-right: 25px;
+            /* 右边距 */
+            border: none;
+            cursor: pointer;
+            width: 10%;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        label {
+            margin-right: 20px;
+            font-size: 16px;
+            display: inline-block;
+            text-align: right;
+        }
+
+        /* 较小屏幕上的进一步优化 */
+        @media screen and (max-width: 600px) {
+            #login-form {
+                width: 90%;
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="login">
+        <h1>Welcome to use the tool !</h1>
+        <h2 id="file"></h2>
+        <label for="username">We assume that your project path is the same as your workspace. You can click on
+            <b>confirm</b> to continue.</label><br>
+        <label for="username">Otherwise, please click on <b>modify</b> to change your project path.</label><br>
+        <button id="confirm">Confirm</button>
+        <button id="modify">Modify</button><br>
+    </div>
+    <script>
+        window.addEventListener('message', event => {
+            const message = event.data.file;
+            let hh = document.getElementById('file');
+            hh.innerHTML = `The file you choose to decompose is <span style="text-decoration: underline;">${message}</span>`;
+        });
+        let conf = document.getElementById('confirm')
+        let mod = document.getElementById('modify')
+        conf.addEventListener('click', function () {
+            const vscode = acquireVsCodeApi();
+            vscode.postMessage({
+                command: "confirm",
+                filepath: ""
+            });
+        })
+        mod.addEventListener('click', function () {
+            let please_wait = document.getElementById('login')
+            please_wait.innerHTML = `<label for="password">Please input the relative path of your project within the workspace and
+            <b>submit</b> it.</label><br>
+            <input type="text" id="project" name="project" value="" placeholder="Enter Project Path" required>
+            <button id="submit">Submit</button>`;
+            let sub = document.getElementById('submit');
+            sub.addEventListener('click', function () {
+                const vscode = acquireVsCodeApi();
+                const path = document.getElementById('project').value;
+                vscode.postMessage({
+                    command: "submit",
+                    filepath: `${path}`
+                });
+            })
+        })
+    </script>
+</body>
+
+</html>

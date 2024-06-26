@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>左侧导航栏</title>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+	<script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.min.js"></script>
+</head>
+<style>
+	body {
+		margin: 0;
+		padding: 20px;
+		/* min-height: 90vh; */
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+	}
+
+	.content table {
+		width: 90%;
+		margin-left: 5%;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		padding: 0;
+		color: black;
+		border: 1px solid #ccc;
+	}
+
+	td:first-child {
+		width: 55%;
+		height: 15px;
+	}
+
+	td:last-child {
+		width: 35%;
+		height: 15px;
+	}
+
+	th:first-child {
+		width: 55%;
+		height: 20px;
+		background-color: #c3d1e4;
+	}
+
+	th:last-child {
+		width: 35%;
+		height: 20px;
+		background-color: #c3d1e4;
+	}
+
+	.big_box {
+		display: flex;
+		/* 改变排列方向为列 */
+		padding: 20px;
+		border: 1px solid #ccc;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		transition: all 0.3s ease;
+		width: 90%;
+		/* 保证在窄屏下填满可用空间 */
+		height: calc(100vh - 250px);
+		/* 减去上下padding */
+		/* max-height: calc(100vh - 40px); */
+		overflow-y: auto;
+		/* 添加滚动条以防内容溢出 */
+	}
+
+	.left_nav {
+		width: 25%;
+		/* min-width: 260px;设置最小宽度防止文字被压缩 */
+		background-color: #4b6383;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.left_up {
+		flex-grow: 1;
+		overflow-y: auto;
+	}
+
+	.left_bottom {
+		height: 10%;
+		justify-content: center;
+		text-align: center;
+		align-items: center;
+	}
+
+	.graph {
+		flex-grow: 1;
+		overflow-y: auto;
+	}
+
+	.intro {
+		height: 10%;
+		justify-content: center;
+		text-align: center;
+		align-items: center;
+	}
+
+	.left_text {
+		font-size: 14px;
+		color: white;
+	}
+
+	.item1 {
+		width: 100%;
+		height: 10%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+	}
+
+	.item1:hover {
+		background-color: #15305a;
+	}
+
+	.item1.active {
+		background-color: #15305a;
+	}
+
+	.item1_text {
+		font-size: 17px;
+		color: white;
+		overflow: hidden;
+		/*超出隐藏*/
+		text-overflow: ellipsis;
+		/*省略号*/
+		white-space: nowrap;
+		/*设置文本不换行*/
+	}
+
+	.content {
+		flex-grow: 1;
+		/* height: calc(100vh - 250px); */
+		/* width: 60%; */
+		background-color: white;
+		overflow-y: auto;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+	}
+
+	button {
+		background-color: rgb(75, 99, 131);
+		color: white;
+		padding: 14px 20px;
+		margin-top: 25px;
+		/* 上边距 */
+		margin-bottom: 10px;
+		/* 下边距 */
+		margin-left: 25px;
+		/* 左边距 */
+		margin-right: 25px;
+		/* 右边距 */
+		border: none;
+		cursor: pointer;
+		width: 13%;
+	}
+
+	button:hover {
+		opacity: 0.8;
+	}
+
+	h3 {
+		text-align: center;
+		font-size: 17px;
+		color: black;
+	}
+</style>
+
+<body>
+	<div id="total">
+		<h2>Decomposition Plan
+		</h2>
+		<div class="big_box">
+			<div class="left_nav" id="left_nav">
+				<div class="left_up" id="left_up"> </div>
+				<div class="left_bottom" id="left_bottom"> </div>
+			</div>
+
+			<div class="content" id="content">
+				<div id="graph"></div>
+				<div id="intro">size: the number of code elements in the file</div>
+			</div>
+		</div>
+		<div id="submit">
+			<button id="back">Go back</button>
+			<button id="confirm">Confirm</button><br>
+		</div>
+	</div>
+	<script>
+		let jsonDataMap = new Map();
+		let FileNameMap = new Map();
+		function generateTableHTML(setForFile, name) {
+			let tableHtml = `
+				<table border="1">
+					<tr>
+						<th> <b>name</b> </th>
+						<th> <b>type</b> </th>
+					</tr>
+			`;
+			for (const item of setForFile) {
+				tableHtml += `
+					<tr>
+						<td>${item[0]}</td>
+						<td>${item[1]}</td>
+					</tr>
+				`;
+			}
+			tableHtml += '</table>';
+			return tableHtml;
+		}
+		window.addEventListener('message', event => {
+			const message = event.data;
+			const fileNum = Object.keys(message.partition).length;
+			// const fileNum = 5;
+			// generate_graph(message.nodes, message.links, message.modularity)
+			d3.select("#graph").graphviz()
+				.renderDot(message.graph_str);
+			let nav_html = `<div class="item1 active">
+					<span class="item1_text">plan_overview</span>
+				</div>\n`;
+			const part = message.partition;
+			for (var [fileName, codeElements] of Object.entries(part)) {
+				nav_html += `
+				<div class="item1">
+					<span class="item1_text">${fileName}</span>
+				</div>\n`;
+			}
+			let nav = document.getElementById('left_up');
+			nav.innerHTML = nav_html;
+			let modularity = document.getElementById('left_bottom');
+			modularity.innerHTML = `<span class="left_text">modularity : ${message.modularity.toFixed(3)}</span>`
+			let i = 0;
+			for (var [fileName, codeElements] of Object.entries(part)) {
+				jsonDataMap.set(i, new Set());
+				FileNameMap.set(i, fileName);
+				const setForFile = jsonDataMap.get(i);
+				for (const element of codeElements) {
+					let tabledata = element.split('+');
+					tabledata[1] = tabledata[1].replace("preproc", "macro");
+					setForFile.add(tabledata);
+				}
+				i++;
+			}
+			let items = document.querySelectorAll('.item1');
+			items[0].addEventListener('click', function () {
+				items.forEach(item => item.classList.remove('active'));
+				this.classList.add('active');
+				let content = document.getElementById('content');
+				content.innerHTML = `	<div id="graph"></div>
+										<div id="intro">size: the number of code elements in the file</div>`;
+				d3.select("#graph").graphviz()
+					.renderDot(message.graph_str);
+			});
+			for (let i = 1; i <= fileNum; i++) {
+				items[i].addEventListener('click', function () {
+					items.forEach(item => item.classList.remove('active'));
+					this.classList.add('active');
+					let tableHtml = generateTableHTML(jsonDataMap.get(i - 1), FileNameMap.get(i - 1));
+					let content = document.getElementById('content');
+					content.innerHTML = tableHtml;
+				});
+			}
+		});
+		let conf = document.getElementById('confirm');
+		conf.addEventListener('click', function () {
+			const vscode = acquireVsCodeApi();
+			vscode.postMessage({
+				command: "start",
+			});
+			let sub = document.getElementById('submit');
+			sub.innerHTML = "<h2 style='margin-top: 25px;'>Please wait for a short time, the refactoring has begun.</h2>";
+		})
+		let back = document.getElementById('back');
+		back.addEventListener('click', function () {
+			const vscode = acquireVsCodeApi();
+			vscode.postMessage({
+				command: "back",
+			});
+		})
+	</script>
+</body>
+
+</html>

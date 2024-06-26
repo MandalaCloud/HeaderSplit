@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <script>
+
+    </script>
+    <style>
+        body {
+            text-align: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* 让页面高度至少为视口高度 */
+        }
+
+        #login {
+            max-width: 1000px;
+            /* 设定表单的最大宽度，以适应较宽的屏幕 */
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            width: 100%;
+            /* 保证在窄屏下填满可用空间 */
+        }
+
+        /* 较小屏幕上的进一步优化 */
+        @media screen and (max-width: 600px) {
+            #login-form {
+                width: 90%;
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="login">
+        <h3>The decomposition has finished, you can close the panel and check your project.</h3>
+    </div>
+</body>
+
+</html>
