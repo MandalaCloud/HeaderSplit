@@ -39,9 +39,9 @@ This extension contributes the following settings:
 
 ### VS Code Plugin
 
-We have integrated the requirements into the plugin, so there is no need to configure them locally as long as python >= 3.9 .
+We have integrated the requirements into the plugin, so there is no need to configure them locally.
 
 1. Clone HeaderSplit.vsix in your computer.
 2. Open the Extensions view and click on the '...' (More Actions) button at the top-right corner, select Install from VSIX... from the dropdown menu and open HeaderSplit.vsix.
- ![Step1](./intro.png)
+ ![Step1](./source_code/intro.png)
 3. After installation, right-click on a specified header file, once you select HeaderSplit, the process of splitting the header file begins. 
