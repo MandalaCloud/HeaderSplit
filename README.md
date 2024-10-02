@@ -7,7 +7,7 @@ It not only suggests decomposition plans but also conducts the refactorings auto
 - [HeaderSplit: An Automated Tool for Splitting Header Files in C Projects](#headersplit-an-automated-tool-for-splitting-header-files-in-c-projects)
   - [Installation](#installation)
     - [Install from VSIX](#install-from-vsix)
-    - [Open from source code](#open-from-source-code)
+    - [Build from source code](#build-from-source-code)
       - [Requirements](#requirements)
   - [Extension Settings](#extension-settings)
   - [Usage](#usage)
@@ -26,7 +26,7 @@ You can install HeaderSplit either from a VSIX file or by building it from sourc
 The installation may take a while. 
 
 
-### Open from source code
+### Build from source code
 
 1. Clone and open this project in your VS Code.
 2. Run `npm install` in `./source_code`.
