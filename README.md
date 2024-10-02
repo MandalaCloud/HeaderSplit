@@ -6,7 +6,7 @@ It not only suggests decomposition plans but also conducts the refactorings auto
 
 - [HeaderSplit: An Automated Tool for Splitting Header Files in C Projects](#headersplit-an-automated-tool-for-splitting-header-files-in-c-projects)
   - [Installation](#installation)
-    - [Installation from VSIX](#installation-from-vsix)
+    - [Install from VSIX](#install-from-vsix)
     - [Open from source code](#open-from-source-code)
       - [Requirements](#requirements)
   - [Extension Settings](#extension-settings)
@@ -18,7 +18,7 @@ It not only suggests decomposition plans but also conducts the refactorings auto
 
 You can install HeaderSplit either from a VSIX file or by building it from source.
 
-### Installation from VSIX
+### Install from VSIX
 
 1. Download the [HeaderSplit.vsix](https://drive.google.com/file/d/1HNv6ltfeg0XeYS-Tfp_63h-4S0FwASWJ/view?usp=sharing) file to your computer.
 2. Open the Extensions view and click on the '...' (More Actions) button at the top-right corner, select `Install from VSIX...` from the dropdown menu and open `HeaderSplit.vsix`.
