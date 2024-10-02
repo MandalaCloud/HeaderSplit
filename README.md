@@ -4,6 +4,15 @@
 This tool extends our previous research,  [Decomposing God Header File via Multi-View Graph Clustering](https://arxiv.org/abs/2406.16487) and is now available as a VS Code plugin.
 It not only suggests decomposition plans but also conducts the refactorings automatically. 
 
+- [HeaderSplit: An Automated Tool for Splitting Header Files in C Projects](#headersplit-an-automated-tool-for-splitting-header-files-in-c-projects)
+  - [Installation](#installation)
+    - [Installation from VSIX](#installation-from-vsix)
+    - [Open from source code](#open-from-source-code)
+      - [Requirements](#requirements)
+  - [Extension Settings](#extension-settings)
+  - [Usage](#usage)
+  - [Evaluation Data](#evaluation-data)
+
 
 ## Installation
 
