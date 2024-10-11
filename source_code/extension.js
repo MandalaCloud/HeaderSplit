@@ -99,7 +99,7 @@ function activate(context) {
             }
 
             console.log("Finish constructing, begin visualization");
-            const community_index = path.join(context.extensionPath, 'backend', `plan_overview_${path.basename(uri.path)}_${parts}_${useGPT}.json`);
+            const community_index = path.join(context.extensionPath, 'intermediate_data', `plan_overview_${path.basename(uri.path)}_${parts}_${useGPT}.json`);
             const jsonContent = fs.readFileSync(community_index, 'utf-8');
             const jsonData = JSON.parse(jsonContent);
 

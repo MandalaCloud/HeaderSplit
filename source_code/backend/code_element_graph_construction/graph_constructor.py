@@ -342,6 +342,8 @@ def construct_reference_graph(project_dir, parser, target_header_file_path):
         for file in os.listdir(path):
             file_path = os.path.join(path, file)
             if os.path.isdir(file_path):
+                if(file_path.endswith('polar_tools')):
+                    print(os.listdir(file_path))
                 traverse(file_path)
             else:
                 if file_path.endswith(".h"):
@@ -354,6 +356,8 @@ def construct_reference_graph(project_dir, parser, target_header_file_path):
         for file in os.listdir(path):
             file_path = os.path.join(path, file)
             if os.path.isdir(file_path):
+                if(file_path.endswith('polar_tools')):
+                    print(os.listdir(file_path))
                 traverse_c(file_path)
             else:
                 if file_path.endswith(".c"):
@@ -395,13 +399,13 @@ def construct_reference_graph(project_dir, parser, target_header_file_path):
     return header_files
 
 
-def save_header_files(project, header_files):
-    with open(project + ".pkl", "wb") as f:
+def save_header_files(path, project, header_files):
+    with open(path + project + ".pkl", "wb") as f:
         pickle.dump(header_files, f)
 
 
-def load_header_files_from_pickle(project):
-    with open(project + ".pkl", "rb") as f:
+def load_header_files_from_pickle(path, project):
+    with open(path + project + ".pkl", "rb") as f:
         header_files = pickle.load(f)
     return header_files
 
@@ -412,15 +416,16 @@ def construct_pkl_graph(project_dir, target_header_file_path):
     parser = Parser(C_LANGUAGE)
 
     project = project_dir.split(os.sep)[-1]
+    save_path = "../intermediate_data/"
 
     header_files = construct_reference_graph(project_dir, parser, target_header_file_path)
-    save_header_files(project, header_files)
+    save_header_files(save_path, project, header_files)
     return header_files
 
 
 def get_code_element_graph(project_dir, target_header_file_path):
     try:
-        header_files = load_header_files_from_pickle(project_dir.split(os.sep)[-1])
+        header_files = load_header_files_from_pickle("../intermediate_data/", project_dir.split(os.sep)[-1])
         print("Code element graph loaded successfully.")
         return header_files
     except:

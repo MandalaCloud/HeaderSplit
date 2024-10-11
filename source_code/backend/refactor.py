@@ -49,11 +49,11 @@ if __name__ == "__main__":
         application_path = os.path.dirname(script_path)
         print("Application path (source):", application_path)
 
-    output_json_path = os.path.join(application_path, f"plan_overview_{basename}_{parts}_{useGPT}.json")
+    output_json_path = os.path.join(application_path, f"../intermediate_data/plan_overview_{basename}_{parts}_{useGPT}.json")
     with open(output_json_path, 'r', encoding='utf-8') as json_file:
         plan_overview = json.load(json_file)
 
-    output_json_path = os.path.join(application_path, f"{basename}_{parts}_{useGPT}.json")
+    output_json_path = os.path.join(application_path, f"../intermediate_data/{basename}_{parts}_{useGPT}.json")
     with open(output_json_path, 'r', encoding='utf-8') as json_file:
         community_index = json.load(json_file)
 

@@ -30,7 +30,7 @@ def construct(project_dir,target_header_file_path,parts, useGPT, key, URL, model
         print("Application path (source):", application_path)
 
     try:
-        output_json_path = os.path.join(application_path, f"{basename}_{parts}_{useGPT}.json")
+        output_json_path = os.path.join(application_path, f"../intermediate_data/{basename}_{parts}_{useGPT}.json")
         with open(output_json_path, 'r', encoding='utf-8') as json_file:
             return
     except:
@@ -65,11 +65,11 @@ def construct(project_dir,target_header_file_path,parts, useGPT, key, URL, model
         print(len(file_names), file_names)
 
         json_content = plan_overview(target_header_file, community_index, file_names)
-        output_json_path = os.path.join(application_path, f"plan_overview_{basename}_{parts}_{useGPT}.json")
+        output_json_path = os.path.join(application_path, f"../intermediate_data/plan_overview_{basename}_{parts}_{useGPT}.json")
         with open(output_json_path, 'w') as json_file:
             json.dump(json_content, json_file)
         
-        output_json_path = os.path.join(application_path, f"{basename}_{parts}_{useGPT}.json")
+        output_json_path = os.path.join(application_path, f"../intermediate_data/{basename}_{parts}_{useGPT}.json")
         with open(output_json_path, 'w') as json_file:
             json.dump(community_index, json_file)
         
