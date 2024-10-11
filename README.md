@@ -17,7 +17,7 @@ It not only suggests decomposition plans but also conducts the refactorings auto
 
 ## Installation
 
-You can install HeaderSplit either from a VSIX file or by building it from source.
+You can install HeaderSplit either from a VSIX file or by building it from source. Please make sure that your VS Code version is above 1.89.
 
 ### Install from VSIX
 

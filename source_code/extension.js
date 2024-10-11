@@ -33,8 +33,8 @@ async function waitForMessage(panel) {
 
 async function executePythonScript(pythonFilePath, projectDir, filePath, parts, name, useGPT, key = "", URL = "", model = "") {
     let commandline;
-    if (name === "Construct") commandline = `${pythonFilePath} ${projectDir} ${filePath} ${parts} ${useGPT} ${key} ${URL} ${model}`;
-    else commandline = `${pythonFilePath} ${projectDir} ${filePath} ${parts} ${useGPT}`;
+    if (name === "Construct") commandline = `python ${pythonFilePath} ${projectDir} ${filePath} ${parts} ${useGPT} ${key} ${URL} ${model}`;
+    else commandline = `python ${pythonFilePath} ${projectDir} ${filePath} ${parts} ${useGPT}`;
 
     return new Promise((resolve, reject) => {
         childProcess.exec(commandline, (error, stdout, stderr) => {
@@ -91,7 +91,7 @@ function activate(context) {
             parts = await waitForMessage(panel);
 
             try {
-                let pythonFilePath = path.join(context.extensionPath, 'backend', 'construct.exe');
+                let pythonFilePath = path.join(context.extensionPath, 'backend', 'construct.py');
                 await executePythonScript(pythonFilePath, project_dir, filePath, parts, 'Construct', useGPT, key, URL, model);
                 console.log('Construct execution complete.');
             } catch (error) {
@@ -110,7 +110,7 @@ function activate(context) {
         }
 
         try {
-            let pythonFilePath = path.join(context.extensionPath, 'backend', 'refactor.exe');
+            let pythonFilePath = path.join(context.extensionPath, 'backend', 'refactor.py');
             await executePythonScript(pythonFilePath, project_dir, filePath, parts, 'Refactor', useGPT);
             console.log('Refactor execution complete.');
         } catch (error) {
