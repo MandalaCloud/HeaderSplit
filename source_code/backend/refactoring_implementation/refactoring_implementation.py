@@ -9,8 +9,9 @@ from decomposition_plan_generation.utils import convert2nx_graph
 
 def refactoring(project_dir, target_header_file_path, target_header_file, community_index, file_names):
     print("Implementing refactoring...")
-
+    print(target_header_file)
     graph, code_elements, code_files = convert2nx_graph(target_header_file)
+    print(code_files)
 
     god_header_file_path = ''
     if target_header_file_path.rfind(os.sep) == -1:

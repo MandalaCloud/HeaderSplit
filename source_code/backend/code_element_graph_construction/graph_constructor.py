@@ -416,7 +416,7 @@ def construct_pkl_graph(project_dir, target_header_file_path):
     parser = Parser(C_LANGUAGE)
 
     project = project_dir.split(os.sep)[-1]
-    save_path = "../intermediate_data/"
+    save_path = ""
 
     header_files = construct_reference_graph(project_dir, parser, target_header_file_path)
     save_header_files(save_path, project, header_files)
@@ -425,7 +425,7 @@ def construct_pkl_graph(project_dir, target_header_file_path):
 
 def get_code_element_graph(project_dir, target_header_file_path):
     try:
-        header_files = load_header_files_from_pickle("../intermediate_data/", project_dir.split(os.sep)[-1])
+        header_files = load_header_files_from_pickle("", project_dir.split(os.sep)[-1])
         print("Code element graph loaded successfully.")
         return header_files
     except:

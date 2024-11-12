@@ -1,5 +1,6 @@
 import json
 import sys
+import os
 
 from tree_sitter import Language, Parser
 import tree_sitter_c as tsc
@@ -256,6 +257,7 @@ def generate_subfiles(kwargs):
 
     # writing file content
     write_file_content(original_code_content, target_header_file, community_index, sub_header_files, graph)
+    os.remove(project_dir+god_header_file_path+god_header_file_name)
     
 
 
